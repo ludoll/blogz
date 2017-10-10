@@ -9,15 +9,16 @@ app.config['SQLALCHEMY_ECHO'] = True
 db = SQLAlchemy(app)
 
 class Blog(db.Model):
+    
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), unique=True)
-    body = db.Column(db.String(120))
+    body = db.Column(db.String(1000))
        
     def __init__(self, email, password):
         self.title = title
         self.body= body
 
-@app.route('/blog', mthods=['POST','GET'])
+@app.route('/blog', methods=['POST','GET'])
 def index():
     if request.args:
         blog_id = request.args.get("id")
