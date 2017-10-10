@@ -24,17 +24,17 @@ def index():
         blog_id = request.args.get("id")
         blog = Blog.query.get(blog_id)
 
-        return render_template('blog.html', blog=blog)
+        return render_template('blogentry.html', blog=blog)
 
     else:
         blogs = Blog.query.all()
-        return blogs
+        return render_template('blog.html')
 
 
 @app.route('/newpost', methods=['GET', 'POST'])
 def add_blog():
     if request.method == 'GET':
-        return render_template('newpost.html', title='Add Blog Entry')
+        return render_template('newpost.html', title='Add a Blog Entry')
 
 
     if request.method == 'POST':
@@ -57,7 +57,7 @@ def add_blog():
         return redirect(query_param_url)
 
     else:
-        return render_template('newpost.html',title='Add Blog Entry'
+        return render_template('newpost.html',title='Add a Blog Entry'
                                              ,title_error=title_error  
                                              ,body_error=body_error)
 
