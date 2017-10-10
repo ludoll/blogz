@@ -14,7 +14,7 @@ class Blog(db.Model):
     title = db.Column(db.String(120), unique=True)
     body = db.Column(db.String(1000))
        
-    def __init__(self, email, password):
+    def __init__(self, title, body):
         self.title = title
         self.body= body
 
@@ -28,6 +28,8 @@ def index():
 
     else:
         blogs = Blog.query.all()
+        return blogs
+
 
 @app.route('/newpost', methods=['GET', 'POST'])
 def add_blog():
