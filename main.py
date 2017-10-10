@@ -24,7 +24,7 @@ def index():
         blog_id = request.args.get("id")
         blog = Blog.query.get(blog_id)
 
-        return render_template('blogentry.html', blog=blog)
+        return render_template('blog.html', blog=blog)
 
     else:
         blogs = Blog.query.all()
@@ -47,7 +47,7 @@ def add_blog():
         title_error = 'Invalid Title'
 
     if len(blog_body) < 1:
-        title_error = 'Invalid body'
+        body_error = 'Invalid body'
 
     if not title_error and not body_error:
         new_blog = Blog(blog_title, blog_body)
