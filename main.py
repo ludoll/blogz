@@ -28,7 +28,7 @@ def index():
 
     else:
         blogs = Blog.query.all()
-        return render_template('blog.html')
+        return render_template('blog.html', blogs=blogs)
 
 
 @app.route('/newpost', methods=['GET', 'POST'])
