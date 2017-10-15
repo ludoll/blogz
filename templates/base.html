@@ -2,11 +2,16 @@
 <html>
     <head>
         <title>{{title}}</title>
+        <style>
+            .error {
+                color: red;
+            }
+        </style>
     </head>
     <body>
         <nav>
-            <a href="/blog">Main Blog Page</a>
-            <a href="/newpost">Add a Blog Entry</a>
+            <a href="/blog">All Blogs</a>
+            <a href="/newpost">New Entry</a>
         </nav>
         {% block content %}
         {% endblock %}

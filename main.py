@@ -44,20 +44,20 @@ def add_blog():
         body_error = ''
 
     if len(blog_body) < 1:
-        title_error = 'Invalid Title'
+        title_error = 'You have to name your blog'
 
     if len(blog_body) < 1:
-        body_error = 'Invalid body'
+        body_error = "Blog can't be blank"
 
     if not title_error and not body_error:
         new_blog = Blog(blog_title, blog_body)
         db.session.add(new_blog)
         db.session.commit()
-        query_param_url = "/blog?id=" + str(new_blog.id)
-        return redirect(query_param_url)
+        new_url = "/blog?id=" + str(new_blog.id)
+        return redirect(new_url)
 
     else:
-        return render_template('newpost.html',title='Add a Blog Entry'
+        return render_template('newpost.html',title='New Blog'
                                              ,title_error=title_error  
                                              ,body_error=body_error)
 

@@ -5,15 +5,12 @@
     <h1>Build a Blog</h1>
 
     {% if blogs|length == 0 %}
-    <p>No blogs yet.</p>
+    <p>There's nothing here.</p>
     {% else %}
 
-        <div class="Blog">
             {% for blog in blogs %}
             <h2><a href="/blog?id={{blog.id}}">{{blog.title}}</a></h2>
-            <p class="forBorder">{{blog.body}}</p>
             {% endfor %}
-        </div>
-        
+
     {% endif %}
 {% endblock %}
