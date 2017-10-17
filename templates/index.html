@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if users|length == 0 %}
+    <p>No one... No one is bloggin'.</p>
+
+    {% else %}
+    <h2><a href="/user?id={{user.id}}">{{email}}</a></h2>
+    {% endif %}
+
+
+
+<h2>This is where the user name shows up</h2>
+
+
+
+{% endblock %}
