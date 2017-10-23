@@ -1,17 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <h1> Who's Bloggin' Now?</h1>
 
     {% if users|length == 0 %}
     <p>No one... No one is bloggin'.</p>
 
     {% else %}
-    <h2><a href="/user?id={{user.id}}">{{email}}</a></h2>
+    {% for user in all_users%}    
+    <a href="/?user={{user.email}}"></a>
+    {%endfor%}
     {% endif %}
-
-
-
-<h2>This is where the user name shows up</h2>
 
 
 

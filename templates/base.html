@@ -10,12 +10,26 @@
     </head>
     <body>
         <nav>
+            {% if 'email' in session %}
+            {{ session['email'] }}
+            {% endif %}
             <a href="/">Home</a>
             <a href="/blog">Main Blog Page</a>
             <a href="/blog/newpost">Add a Blog Entry</a>
-            <div style="float:right;"><a href="/login"> Log In</a></div><br>
-            <div style="float:right;"><a href="/">Log Out</a></div>
+            <div style="float:right;"><a href="/logout">Log Out</a>
+                                      <a href="/login">Log In</a></div> 
         </nav>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class=flashes>
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
         {% block content %}
         {% endblock %}
         

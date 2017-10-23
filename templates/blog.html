@@ -2,18 +2,12 @@
 
 {% block content %}
 
-    <h1>Who's Bloggin' Now?</h1>
-
-    {% if blogs|length == 0 %}
-    <p>No one... No one is bloggin'.</p>
-    {% else %}
+    <h1>What's New in Blogz?</h1>
 
             {% for blog in blogs %}
             <h2><a href="/user?id={{user.id}}">{{user.email}}</a></h2>
-            <p><a href="/blog?id={{blog.id}}">{{blog.title}}</a></p>
+            <p><a href="/blog?id={{owner.id}}">{{blog.title}}</a></p>
             {{blog.body}}
             {% endfor %}
-        
-    {% endif %}
 {% endblock %}
 
