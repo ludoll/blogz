@@ -103,7 +103,7 @@ def single_user():
         user_id = request.args.get('id')
         owner = User.query.get(user_id)
         blogs = Blog.query.filter_by(owner=owner).all()
-        return render_template('singleuser.html', blogs=blogs, email = owner.email)
+        return render_template('singleuser.html', blogs=blogs, email=owner.email)
 
 @app.route('/blog/newpost', methods=['GET','POST'])
 def new_blog():
@@ -138,7 +138,8 @@ def blog():
     if request.args.get("id"):
         blog_id = request.args.get('id')
         single_blog = Blog.query.get(blog_id)
-        return render_template('blogentry.html', single_blog=single_blog)
+        owner = single_blog.owner
+        return render_template('blogentry.html', single_blog=single_blog, email=owner.email)
     else:
         blogs = Blog.query.all()
         return render_template('blog.html', blogs=blogs)
