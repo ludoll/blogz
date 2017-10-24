@@ -59,7 +59,7 @@ def login():
 @app.route('/logout')
 def logout():
     del session['email']
-    flash ('See you soon!')
+    flash ('See you next time!')
     return redirect('/blog')
 
 @app.route('/signup', methods=['POST','GET'])
@@ -68,12 +68,13 @@ def signup():
         email = request.form['email']
         password = request.form['password']
         verify = request.form['verify']
-        if "@" not in email or "." not in email or " " in email or len(email) < 3 or len(email) > 20:
+        if "@" not in email or "." not in email or " " in email or len(email) < 3 or len(email) > 30:
             flash('It seems that you have entered an email that has the incorrect format')
             return redirect('/signup')
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
             flash('User email is already spoken for, chief.')
+            return redirect('/signup')
         if password != verify:
             flash('passwords did not match')
             return redirect('/signup')
@@ -88,8 +89,21 @@ def signup():
 
 @app.route('/')
 def index():
-    all_users = User.query.all()
-    return render_template('index.html', all_users=all_users)
+    if request.args.get('id'):
+        user_id = request.args.get('id')
+        all_users = User.query.get(user_id)
+        return render_template('index.html', all_users=all_users)
+    else:
+        all_users = User.query.all()
+        return render_template('index.html', all_users=all_users)
+
+@app.route('/singleuser')
+def single_user():
+    if request.args.get('id'):
+        user_id = request.args.get('id')
+        owner = User.query.get(user_id)
+        blogs = Blog.query.filter_by(owner=owner).all()
+        return render_template('singleuser.html', blogs=blogs, email = owner.email)
 
 @app.route('/blog/newpost', methods=['GET','POST'])
 def new_blog():
@@ -103,35 +117,31 @@ def new_blog():
         title_error = ''
         body_error = ''
 
-    if len(blog_body) < 1:
-        title_error = 'You have to name your blog'
+        if len(blog_body) < 1:
+            title_error = 'You have to name your blog'
 
-    if len(blog_body) < 1:
-        body_error = "Blog can't be blank"
+        if len(blog_body) < 1:
+            body_error = "Blog can't be blank"
 
-    if not title_error and not body_error:
-        new_entry = Blog(blog_title, blog_body, owner)
-        db.session.add(new_entry)
-        db.session.commit()
-        new_url = "/blog?id=" + str(new_entry.id)
-        return redirect(new_url)
+        if not title_error and not body_error:
+            new_entry = Blog(blog_title, blog_body, owner)
+            db.session.add(new_entry)
+            db.session.commit()
+            new_url = "/blog?id=" + str(new_entry.id)
+            return redirect(new_url)
 
-    else:
-        return render_template('newpost.html', title_error=title_error, body_error=body_error)
+        else:
+            return render_template('newpost.html', title_error=title_error, body_error=body_error)
 
 @app.route('/blog', methods=['POST','GET'])
 def blog():
-    id = request.args.get('id')
-    email = request.args.get('email')
-    blog_title = Blog.query.get('title')
-    blog_body = Blog.query.get('body')    
-    # if id = '':
-    #     return 
-        
-    # if email = '':
-    #     return: 
-    return render_template('blog.html', blog_title=blog_title
-                                      , blog_body=blog_body)
+    if request.args.get("id"):
+        blog_id = request.args.get('id')
+        single_blog = Blog.query.get(blog_id)
+        return render_template('blogentry.html', single_blog=single_blog)
+    else:
+        blogs = Blog.query.all()
+        return render_template('blog.html', blogs=blogs)
 
     
 if __name__ == '__main__':
