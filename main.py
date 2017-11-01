@@ -11,7 +11,7 @@ app.secret_key = '3l33t5UzP3B'
 db = SQLAlchemy(app)
 
 class User(db.Model):
-    
+
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True)
     password = db.Column(db.String(120))
@@ -22,12 +22,12 @@ class User(db.Model):
         self.password = password
 
 class Blog(db.Model):
-    
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), unique=True)
     body = db.Column(db.String(1000))
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-       
+
     def __init__(self, title, body, owner):
         self.title = title
         self.body = body
@@ -144,7 +144,6 @@ def blog():
         blogs = Blog.query.all()
         return render_template('blog.html', blogs=blogs)
 
-    
+
 if __name__ == '__main__':
     app.run()
-    
